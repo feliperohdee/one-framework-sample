@@ -11,7 +11,8 @@ export class Todos extends Collection<TodoModel> {
 		})));
 
 		this.defaultOrder = {
-			done: 'desc'
+			done: 'desc',
+			text: 'asc'
 		}
 	}
 }

@@ -26,7 +26,7 @@ export class Input extends Component<IInputProps, IInputState>{
 
 	render(): JSX.Element {
 		return (
-			<input type="text" onKeyUp={ e => this.toPool('onAddTask', e) }/>
+			<input type="text" placeholder="Add todo and press enter" onKeyUp={ e => this.toPool('onAddTask', e) }/>
 		);
 	}
 }
