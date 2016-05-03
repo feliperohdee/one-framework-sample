@@ -1,0 +1,27 @@
+{
+  "name": "one-framework-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "rm -rf __build__ && webpack --watch",
+    "serve": "./node_modules/.bin/http-server . -p 9090",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "webpack": "^1.13.0",
+    "http-server": "*"
+  },
+  "dependencies": {
+    "cuid": "^1.3.8",
+    "one-framework": "^1.2.0-alpha.3",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-router": "^2.4.0",
+    "rxjs": "^5.0.0-beta.7"
+  }
+}
