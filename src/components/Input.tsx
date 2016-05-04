@@ -15,7 +15,7 @@ export class Input extends Component<IInputProps, IInputState>{
 		this.fromPool<React.KeyboardEvent>('onAddTask')
 			.subscribe(e => {
 				if (e.keyCode === 13) {
-					let target: HTMLInputElement = event.target as HTMLInputElement;
+					let target: HTMLInputElement = e.target as HTMLInputElement;
 					let text: string = target.value;
 					target.value = '';
 
