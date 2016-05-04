@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf __build__ && webpack --watch",
+    "start": "rm -rf build && webpack --watch",
     "serve": "./node_modules/.bin/http-server . -p 9090",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

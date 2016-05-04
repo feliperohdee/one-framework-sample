@@ -9,8 +9,8 @@ module.exports = {
         'bundle': ['./src/index.tsx']
     },
     output: {
-        path: '__build__',
-        publicPath: '__build__',
+        path: 'build',
+        publicPath: 'build',
         filename: '[name].js'
     },
     resolve: {
