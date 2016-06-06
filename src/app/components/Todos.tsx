@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 import {Component} from 'one-framework';
 import {TodoModel} from '../models';
@@ -8,7 +9,7 @@ import {
 } from './';
 
 interface ITodosProps {
-	params: any
+	params?: any
 }
 
 interface ITodosState {
@@ -18,11 +19,11 @@ interface ITodosState {
 export class Todos extends Component<ITodosProps, ITodosState>{
 	public todos: TodosCollection = new TodosCollection();
 
-	constructor() {
-		super();
-
+	constructor(props?: ITodosProps) {
+		super(props);
+	
 		this.setInitialState({
-			todos: []
+			todos: this.prefetchedData ? this.prefetchedData.todos : []
 		});
 	}
 

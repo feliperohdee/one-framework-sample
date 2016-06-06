@@ -6,7 +6,7 @@ module.exports = {
 
     entry: {
         'vendor': ['./src/vendor.ts'],
-        'bundle': ['./src/index.tsx']
+        'bundle': ['./src/browser.ts']
     },
     output: {
         path: 'build',
