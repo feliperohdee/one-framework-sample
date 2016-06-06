@@ -2,9 +2,10 @@
   "name": "one-framework-sample",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "rm -rf build && webpack --watch",
+    "start": "node __build__/server.js",
+    "dev": "rm -rf build && webpack --watch",
     "serve": "./node_modules/.bin/http-server . -p 9090",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
