@@ -9,7 +9,7 @@
     "removeComments": true,
     "noImplicitAny": false,
     "jsx": "react",
-    "outDir": "__build__"
+    "outDir": "__serverBuild__"
   },
   "exclude": [
     "node_modules"

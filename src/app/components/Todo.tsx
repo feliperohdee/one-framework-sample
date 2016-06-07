@@ -42,11 +42,18 @@ export class Todo extends Component<ITodoProps, ITodoState>{
 
 	render(): JSX.Element {
 		return (
-			<li className={this.props.todo.get('done') ? 'done' : ''} onClick={e => this.toPool('onDone', e) }>
-				{ this.props.todo.get('text') }
-
-				<button onClick={e => this.toPool('onDestroy', e) }>Remove</button>
-			</li>
+			<div className={'item ' + (this.props.todo.get('done') ? 'done' : '')} onClick={e => this.toPool('onDone', e) }>
+				<div className="right floated content">
+					<button className="ui icon red circular button" onClick={e => this.toPool('onDestroy', e) }>
+						<i className="trash icon"></i>
+					</button>
+				</div>
+				
+				<div className="content text">
+					<i className={'icon ' + (this.props.todo.get('done') ? 'checkmark box' : 'square outline')}></i>
+					{ this.props.todo.get('text') }
+				</div>
+			</div>
 		);
 	}
 }

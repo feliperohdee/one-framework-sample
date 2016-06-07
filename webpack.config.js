@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+var webpack = require('webpack'),
+    ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     cache: true,
@@ -9,8 +10,7 @@ module.exports = {
         'bundle': ['./src/browser.ts']
     },
     output: {
-        path: 'build',
-        publicPath: 'build',
+        path: '__clientBuild__/',
         filename: '[name].js'
     },
     resolve: {
@@ -20,9 +20,30 @@ module.exports = {
         loaders: [{
             test: /\.ts$/,
             loader: 'ts-loader'
-        },{
+        }, {
             test: /\.tsx$/,
             loader: 'ts-loader'
+        }, {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract('css-loader')
+        }, {
+            test: /\.woff(2)?(\?v=\d+\.\d+\.\d+)?$/,
+            loader: 'file-loader?mimetype=application/font-woff&name=fonts/[name].[ext]'
+        }, {
+            test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+            loader: 'file-loader?mimetype=application/x-font-ttf&name=fonts/[name].[ext]'
+        }, {
+            test: /\.eot(\?v=\d+\.\d+\.\d+)?\??$/,
+            loader: 'file-loader?mimetype=application/vnd.ms-fontobject&name=fonts/[name].[ext]'
+        }, {
+            test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
+            loader: 'file-loader?mimetype=application/font-otf&name=fonts/[name].[ext]'
+        }, {
+            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+            loader: 'file-loader?mimetype=image/svg+xml&name=fonts/[name].[ext]'
+        }, {
+            test: /\.png$/,
+            loader: 'file-loader?name=images/[name].[ext]'
         }],
         noParse: [
             /\.min\.js/
@@ -40,6 +61,7 @@ module.exports = {
             chunks: ['vendor', 'bundle']
         }),
         new webpack.optimize.DedupePlugin(),
+        new ExtractTextPlugin('[name].css'),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false

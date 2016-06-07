@@ -39,10 +39,8 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 		let todos = this.state.todos.map(todo => <Todo key={todo.cid} todo={todo}/>);
 
 		return (
-			<section className="tasks">
-				<ul>
-					{_.size(todos) ? todos : <li>No todos</li>}
-				</ul>
+			<section className="ui divided list">
+				{_.size(todos) ? todos : <div className="item">No todos</div>}
 
 				<Input todos={this.todos}/>
 			</section>
