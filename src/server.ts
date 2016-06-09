@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import * as _ from 'lodash';
 import {one, Sync} from './app';
 import {join} from 'path';
@@ -13,8 +14,11 @@ let server = http.createServer(app);
 Sync.registerTransport('request', new Request());
 Sync.defaultTransports = ['request'];
 
-// server static
+// serve static
 app.use('/__clientBuild__', express.static(join(__dirname, '../__clientBuild__')));
+
+// enable cross origin requests
+app.use(cors());
 
 // serve todos api
 app.get('/api/v1/todos', (req, res) => {

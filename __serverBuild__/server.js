@@ -1,5 +1,6 @@
 "use strict";
 var express = require('express');
+var cors = require('cors');
 var _ = require('lodash');
 var app_1 = require('./app');
 var path_1 = require('path');
@@ -11,6 +12,7 @@ var server = http.createServer(app);
 app_1.Sync.registerTransport('request', new one_request_transport_1.Request());
 app_1.Sync.defaultTransports = ['request'];
 app.use('/__clientBuild__', express.static(path_1.join(__dirname, '../__clientBuild__')));
+app.use(cors());
 app.get('/api/v1/todos', function (req, res) {
     res.json(_.times(10, function (n) { return ({
         text: "task-" + n

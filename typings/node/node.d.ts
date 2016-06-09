@@ -323,6 +323,7 @@ declare namespace NodeJS {
             ares: string;
             uv: string;
             zlib: string;
+            modules: string;
             openssl: string;
         };
         config: {
@@ -535,12 +536,15 @@ declare module "events" {
         addListener(event: string, listener: Function): this;
         on(event: string, listener: Function): this;
         once(event: string, listener: Function): this;
+        prependListener(event: string, listener: Function): this;
+        prependOnceListener(event: string, listener: Function): this;
         removeListener(event: string, listener: Function): this;
         removeAllListeners(event?: string): this;
         setMaxListeners(n: number): this;
         getMaxListeners(): number;
         listeners(event: string): Function[];
         emit(event: string, ...args: any[]): boolean;
+        eventNames(): string[];
         listenerCount(type: string): number;
     }
 }
@@ -858,7 +862,7 @@ declare module "os" {
 
     export function tmpdir(): string;
     export function homedir(): string;
-    export function endianness(): string;
+    export function endianness(): "BE" | "LE";
     export function hostname(): string;
     export function type(): string;
     export function platform(): string;
@@ -1645,6 +1649,8 @@ declare module "fs" {
         fd?: number;
         mode?: number;
         autoClose?: boolean;
+        start?: number;
+        end?: number;
     }): ReadStream;
     export function createWriteStream(path: string | Buffer, options?: {
         flags?: string;
