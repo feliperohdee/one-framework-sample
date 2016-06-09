@@ -13,7 +13,7 @@ var Todos = (function (_super) {
     __extends(Todos, _super);
     function Todos(props) {
         _super.call(this, props);
-        this.todos = new collections_1.TodosCollection();
+        this.todos = collections_1.TodosCollection.instance;
         this.setInitialState({
             todos: this.prefetchedData ? this.prefetchedData.todos : []
         });
@@ -21,6 +21,7 @@ var Todos = (function (_super) {
     Todos.prototype.componentDidMount = function () {
         var _this = this;
         this.todos.stream
+            .skip(1)
             .merge(this.onRoute.mapTo(this.todos))
             .takeUntil(this.onUnmount)
             .map(function (todos) { return todos.filter(_this.props.params.status); })

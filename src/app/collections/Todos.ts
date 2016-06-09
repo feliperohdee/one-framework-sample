@@ -1,15 +1,19 @@
 import * as _ from 'lodash';
-import {Collection} from 'one-framework';
+import {utils, Collection} from 'one-framework';
 import {TodoModel} from '../models'
 
 /**
  * Collection definition
  */
 export class Todos extends Collection<TodoModel> {
+	static get instance(): Todos {
+		return utils.exportSingleton(Todos);
+	}
+
+	public resource: string = '/api/v1/todos';
+
 	constructor() {
-		super(TodoModel, _.times(10, n => ({
-			text: `task-${n}`
-		})));
+		super(TodoModel);
 
 		this.defaultOrder = {
 			done: 'desc',

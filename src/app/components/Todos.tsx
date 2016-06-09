@@ -17,7 +17,7 @@ interface ITodosState {
 }
 
 export class Todos extends Component<ITodosProps, ITodosState>{
-	public todos: TodosCollection = new TodosCollection();
+	public todos: TodosCollection = TodosCollection.instance;
 
 	constructor(props?: ITodosProps) {
 		super(props);
@@ -29,7 +29,10 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 
 	componentDidMount(): void {
 		this.todos.stream
-			.merge(this.onRoute.mapTo(this.todos))
+			.skip(1) // we can ignore first push in favor of server rendering
+			.merge(
+				this.onRoute.mapTo(this.todos)
+			)
 			.takeUntil(this.onUnmount)
 			.map(todos => todos.filter(this.props.params.status))
 			.subscribe(todos => this.setState({ todos }));

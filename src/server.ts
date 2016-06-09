@@ -1,14 +1,29 @@
 import * as express from 'express';
-import {one} from './app';
+import * as _ from 'lodash';
+import {one, Sync} from './app';
 import {join} from 'path';
 import {Http} from './bin/Http';
+import {Request} from 'one-request-transport';
 
 let http: Http = new Http();
 let app = express();
 let server = http.createServer(app);
 
+// set request transport as default
+Sync.registerTransport('request', new Request());
+Sync.defaultTransports = ['request'];
+
+// server static
 app.use('/__clientBuild__', express.static(join(__dirname, '../__clientBuild__')));
 
+// serve todos api
+app.get('/api/v1/todos', (req, res) => {
+	res.json(_.times(10, n => ({
+		text: `task-${n}`
+	})));
+});
+
+// responds html
 app.get('*', (req, res) => {
 	one.serverBootstrap(req.url)
 		.subscribe(app => {
@@ -19,7 +34,6 @@ app.get('*', (req, res) => {
 						<meta charset="UTF-8">
 						<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 						<title>Simple todo list with One Framework</title>
-						<base href="/">
 						<link rel="stylesheet" href="./__clientBuild__/vendor.css">
 						<style>
 							.container{
@@ -50,6 +64,7 @@ app.get('*', (req, res) => {
 		});
 });
 
+// error handling
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
 	let err: any = new Error('Not Found');
 	err.status = 404;

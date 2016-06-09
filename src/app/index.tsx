@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {one} from 'one-framework';
+import {one, Sync} from 'one-framework';
 import {
 	MainComponent,
 	TodosComponent
@@ -8,33 +8,36 @@ import {
 	TodosCollection
 } from './collections';
 
-let todos = new TodosCollection();
+let todos = TodosCollection.instance;
+
+one.url = process.env.NODE_ENV === 'production' ? 'https://one-framework-sample.herokuapp.com' : 'http://localhost:3000';
 
 one.routes = {
 	path: '/',
 	component: MainComponent,
-	prefetch: params => {
-		return todos.stream
-			.map(todos => ({ todos }))
-			.first();
+	prefetch: () => {
+		return todos.fetch();
 	},
 	indexRoute: {
 		component: TodosComponent,
-		prefetch: params => {
-			return Observable.of<TodosCollection>(params.prefetchedData.todos)
-				.map(todos => todos.get())
-				.map(todos => ({ todos }));
+		prefetch: () => {
+			return todos.stream
+				.first()
+				.map(() => ({ todos: todos.get() }));
 		}
 	},
 	childRoutes: [{
 		path: '/:status',
 		component: TodosComponent,
 		prefetch: params => {
-			return Observable.of<TodosCollection>(params.prefetchedData.todos)
-				.map(todos => todos.filter(params.status))
-				.map(todos => ({ todos }));
+			return todos.stream
+				.first()
+				.map(() => ({ todos: todos.filter(params.status) }));
 		}
 	}]
 };
 
-export { one };
+export { 
+	one,
+	Sync
+};

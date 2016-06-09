@@ -1,7 +1,8 @@
 var webpack = require('webpack'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin');
+    ExtractTextPlugin = require('extract-text-webpack-plugin')
+_ = require('lodash');
 
-module.exports = {
+var base = {
     cache: true,
     devtool: 'cheap-source-map',
 
@@ -50,6 +51,18 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'commons',
+            filename: 'common.js',
+            chunks: ['vendor', 'bundle']
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new ExtractTextPlugin('[name].css')
+    ]
+};
+
+if (process.env.NODE_ENV === 'production') {
+    base.plugins = [
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production')
@@ -67,5 +80,7 @@ module.exports = {
                 warnings: false
             }
         })
-    ]
-};
+    ];
+}
+
+module.exports = base;

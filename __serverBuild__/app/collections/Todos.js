@@ -4,20 +4,25 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var _ = require('lodash');
 var one_framework_1 = require('one-framework');
 var models_1 = require('../models');
 var Todos = (function (_super) {
     __extends(Todos, _super);
     function Todos() {
-        _super.call(this, models_1.TodoModel, _.times(10, function (n) { return ({
-            text: "task-" + n
-        }); }));
+        _super.call(this, models_1.TodoModel);
+        this.resource = '/api/v1/todos';
         this.defaultOrder = {
             done: 'desc',
             text: 'asc'
         };
     }
+    Object.defineProperty(Todos, "instance", {
+        get: function () {
+            return one_framework_1.utils.exportSingleton(Todos);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Todos;
 }(one_framework_1.Collection));
 exports.Todos = Todos;
