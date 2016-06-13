@@ -10,14 +10,17 @@ export class Todos extends Collection<TodoModel> {
 		return utils.exportSingleton(Todos);
 	}
 
-	public resource: string = '/api/v1/todos';
-
 	constructor() {
 		super(TodoModel);
 
+		this.resource = '/api/v1/todos';
 		this.defaultOrder = {
 			done: 'desc',
 			text: 'asc'
 		}
+	}
+
+	add(text: string): void {
+		this.set({ text });
 	}
 }

@@ -8,32 +8,20 @@ import {
 	TodosCollection
 } from './collections';
 
-let todos = TodosCollection.instance;
+// share this collection with client side with "collectionCode" to identify
+TodosCollection.instance.shareContext('collectionCode');
 
 one.url = process.env.NODE_ENV === 'production' ? 'https://one-framework-sample.herokuapp.com' : 'http://localhost:3000';
 
 one.routes = {
 	path: '/',
 	component: MainComponent,
-	prefetch: () => {
-		return todos.fetch();
-	},
 	indexRoute: {
-		component: TodosComponent,
-		prefetch: () => {
-			return todos.stream
-				.first()
-				.map(() => ({ todos: todos.get() }));
-		}
+		component: TodosComponent
 	},
 	childRoutes: [{
 		path: '/:status',
-		component: TodosComponent,
-		prefetch: params => {
-			return todos.stream
-				.first()
-				.map(() => ({ todos: todos.filter(params.status) }));
-		}
+		component: TodosComponent
 	}]
 };
 

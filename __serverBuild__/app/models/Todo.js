@@ -9,12 +9,20 @@ var Todo = (function (_super) {
     __extends(Todo, _super);
     function Todo() {
         _super.call(this);
-        this.idAttribute = 'text';
         this.defaults = {
             text: '',
             done: false
         };
     }
+    Todo.prototype.done = function () {
+        this.set({ done: true })
+            .save()
+            .subscribe();
+    };
+    Todo.prototype.remove = function () {
+        this.delete()
+            .subscribe();
+    };
     return Todo;
 }(one_framework_1.Model));
 exports.Todo = Todo;

@@ -17,7 +17,7 @@ var Input = (function (_super) {
                 var target = e.target;
                 var text = target.value;
                 target.value = '';
-                _this.props.todos.set({ text: text });
+                _this.props.todos.add(text);
             }
         });
     }

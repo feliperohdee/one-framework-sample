@@ -23,6 +23,9 @@ var Todos = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Todos.prototype.add = function (text) {
+        this.set({ text: text });
+    };
     return Todos;
 }(one_framework_1.Collection));
 exports.Todos = Todos;

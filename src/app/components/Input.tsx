@@ -19,7 +19,7 @@ export class Input extends Component<IInputProps, IInputState>{
 					let text: string = target.value;
 					target.value = '';
 
-					this.props.todos.set({ text });
+					this.props.todos.add(text);
 				}
 			});
 	}

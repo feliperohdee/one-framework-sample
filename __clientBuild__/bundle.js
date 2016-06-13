@@ -1,2 +1,318 @@
-webpackJsonp([0],{0:function(t,e,o){t.exports=o(1)},1:function(t,e,o){"use strict";var n=o(2);n.one.bootstrap()},2:function(t,e,o){"use strict";var n=o(3);e.one=n.one,e.Sync=n.Sync;var r=o(593),s=o(596),i=s.TodosCollection.instance;n.one.url="https://one-framework-sample.herokuapp.com",n.one.routes={path:"/",component:r.MainComponent,prefetch:function(){return i.fetch()},indexRoute:{component:r.TodosComponent,prefetch:function(){return i.stream.first().map(function(){return{todos:i.get()}})}},childRoutes:[{path:"/:status",component:r.TodosComponent,prefetch:function(t){return i.stream.first().map(function(){return{todos:i.filter(t.status)}})}}]}},593:function(t,e,o){"use strict";var n=o(594);e.MainComponent=n.Main;var r=o(595);e.TodosComponent=r.Todos;var s=o(600);e.TodoComponent=s.Todo;var i=o(601);e.InputComponent=i.Input},594:function(t,e,o){"use strict";var n=this&&this.__extends||function(t,e){function o(){this.constructor=t}for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,new o)},r=o(11),s=o(3),i=o(517),c=function(t){function e(e){t.call(this,e)}return n(e,t),e.prototype.render=function(){return r.createElement("section",null,r.createElement("div",{className:"ui pointing menu"},r.createElement(i.Link,{className:"item",activeClassName:"active",onlyActiveOnIndex:!0,to:"/"},"All"),r.createElement(i.Link,{className:"item",activeClassName:"active",to:"/done"},"Done"),r.createElement("div",{className:"right menu"},r.createElement("a",{className:"item",href:"https://github.com/feliperohdee/one-framework-sample"},"Source"))),this.props.children)},e}(s.Component);e.Main=c},595:function(t,e,o){"use strict";var n=this&&this.__extends||function(t,e){function o(){this.constructor=t}for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,new o)},r=o(9),s=o(11),i=o(3),c=o(596),a=o(593),u=function(t){function e(e){t.call(this,e),this.todos=c.TodosCollection.instance,this.setInitialState({todos:this.prefetchedData?this.prefetchedData.todos:[]})}return n(e,t),e.prototype.componentDidMount=function(){var t=this;this.todos.stream.skip(1).merge(this.onRoute.mapTo(this.todos)).takeUntil(this.onUnmount).map(function(e){return e.filter(t.props.params.status)}).subscribe(function(e){return t.setState({todos:e})})},e.prototype.render=function(){var t=this.state.todos.map(function(t){return s.createElement(a.TodoComponent,{key:t.cid,todo:t})});return s.createElement("section",{className:"ui divided list"},r.size(t)?t:s.createElement("div",{className:"item"},"No todos"),s.createElement(a.InputComponent,{todos:this.todos}))},e}(i.Component);e.Todos=u},596:function(t,e,o){"use strict";var n=o(597);e.TodosCollection=n.Todos},597:function(t,e,o){"use strict";var n=this&&this.__extends||function(t,e){function o(){this.constructor=t}for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,new o)},r=o(3),s=o(598),i=function(t){function e(){t.call(this,s.TodoModel),this.resource="/api/v1/todos",this.defaultOrder={done:"desc",text:"asc"}}return n(e,t),Object.defineProperty(e,"instance",{get:function(){return r.utils.exportSingleton(e)},enumerable:!0,configurable:!0}),e}(r.Collection);e.Todos=i},598:function(t,e,o){"use strict";var n=o(599);e.TodoModel=n.Todo},599:function(t,e,o){"use strict";var n=this&&this.__extends||function(t,e){function o(){this.constructor=t}for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,new o)},r=o(3),s=function(t){function e(){t.call(this),this.idAttribute="text",this.defaults={text:"",done:!1}}return n(e,t),e}(r.Model);e.Todo=s},600:function(t,e,o){"use strict";var n=this&&this.__extends||function(t,e){function o(){this.constructor=t}for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,new o)},r=o(11),s=o(3),i=function(t){function e(e){var o=this;t.call(this,e),this.lastSet=e.todo.lastSet,this.fromPool("onDone").subscribe(function(t){t.stopPropagation(),o.props.todo.set({done:!0})}),this.fromPool("onDestroy").subscribe(function(t){t.stopPropagation(),o.props.todo.destroy()})}return n(e,t),e.prototype.shouldComponentUpdate=function(t){var e=!1;return this.lastSet!==t.todo.lastSet&&(this.lastSet=t.todo.lastSet,e=!0),e},e.prototype.render=function(){var t=this;return r.createElement("div",{className:"item "+(this.props.todo.get("done")?"done":""),onClick:function(e){return t.toPool("onDone",e)}},r.createElement("div",{className:"right floated content"},r.createElement("button",{className:"ui icon red circular button",onClick:function(e){return t.toPool("onDestroy",e)}},r.createElement("i",{className:"trash icon"}))),r.createElement("div",{className:"content text"},r.createElement("i",{className:"icon "+(this.props.todo.get("done")?"checkmark box":"square outline")}),this.props.todo.get("text")))},e}(s.Component);e.Todo=i},601:function(t,e,o){"use strict";var n=this&&this.__extends||function(t,e){function o(){this.constructor=t}for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);t.prototype=null===e?Object.create(e):(o.prototype=e.prototype,new o)},r=o(11),s=o(3),i=function(t){function e(e){var o=this;t.call(this,e),this.fromPool("onAddTask").subscribe(function(t){if(13===t.keyCode){var e=t.target,n=e.value;e.value="",o.props.todos.set({text:n})}})}return n(e,t),e.prototype.render=function(){var t=this;return r.createElement("div",{className:"ui form"},r.createElement("div",{className:"field"},r.createElement("label",null,"Add Todo"),r.createElement("input",{type:"text",placeholder:"Add todo and press enter",onKeyUp:function(e){return t.toPool("onAddTask",e)}})))},e}(s.Component);e.Input=i}});
+webpackJsonp([0],{
+
+/***/ 0:
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(1);
+
+
+/***/ },
+
+/***/ 1:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var app_1 = __webpack_require__(2);
+	app_1.one.bootstrap();
+
+
+/***/ },
+
+/***/ 2:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {"use strict";
+	var one_framework_1 = __webpack_require__(4);
+	exports.one = one_framework_1.one;
+	exports.Sync = one_framework_1.Sync;
+	var components_1 = __webpack_require__(599);
+	var collections_1 = __webpack_require__(601);
+	collections_1.TodosCollection.instance.shareContext('collectionCode');
+	one_framework_1.one.url = process.env.NODE_ENV === 'production' ? 'https://one-framework-sample.herokuapp.com' : 'http://localhost:3000';
+	one_framework_1.one.routes = {
+	    path: '/',
+	    component: components_1.MainComponent,
+	    indexRoute: {
+	        component: components_1.TodosComponent
+	    },
+	    childRoutes: [{
+	            path: '/:status',
+	            component: components_1.TodosComponent
+	        }]
+	};
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+
+/***/ 599:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var Main_1 = __webpack_require__(600);
+	exports.MainComponent = Main_1.Main;
+	var Todos_1 = __webpack_require__(605);
+	exports.TodosComponent = Todos_1.Todos;
+	var Todo_1 = __webpack_require__(606);
+	exports.TodoComponent = Todo_1.Todo;
+	var Input_1 = __webpack_require__(607);
+	exports.InputComponent = Input_1.Input;
+
+
+/***/ },
+
+/***/ 600:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(13);
+	var one_framework_1 = __webpack_require__(4);
+	var react_router_1 = __webpack_require__(521);
+	var collections_1 = __webpack_require__(601);
+	var Main = (function (_super) {
+	    __extends(Main, _super);
+	    function Main(props) {
+	        _super.call(this, props);
+	        this.collection = collections_1.TodosCollection.instance;
+	    }
+	    Main.preServer = function () {
+	        return collections_1.TodosCollection.instance.fetch({
+	            reset: true
+	        });
+	    };
+	    Main.prototype.render = function () {
+	        return (React.createElement("section", null, React.createElement("div", {className: "ui pointing menu"}, React.createElement(react_router_1.Link, {className: "item", activeClassName: "active", onlyActiveOnIndex: true, to: "/"}, "All"), React.createElement(react_router_1.Link, {className: "item", activeClassName: "active", to: "/done"}, "Done"), React.createElement("div", {className: "right menu"}, React.createElement("a", {className: "item", href: "https://github.com/feliperohdee/one-framework-sample"}, "Source"))), this.props.children));
+	    };
+	    return Main;
+	}(one_framework_1.Component));
+	exports.Main = Main;
+
+
+/***/ },
+
+/***/ 601:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var Todos_1 = __webpack_require__(602);
+	exports.TodosCollection = Todos_1.Todos;
+
+
+/***/ },
+
+/***/ 602:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var one_framework_1 = __webpack_require__(4);
+	var models_1 = __webpack_require__(603);
+	var Todos = (function (_super) {
+	    __extends(Todos, _super);
+	    function Todos() {
+	        _super.call(this, models_1.TodoModel);
+	        this.resource = '/api/v1/todos';
+	        this.defaultOrder = {
+	            done: 'desc',
+	            text: 'asc'
+	        };
+	    }
+	    Object.defineProperty(Todos, "instance", {
+	        get: function () {
+	            return one_framework_1.utils.exportSingleton(Todos);
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
+	    Todos.prototype.add = function (text) {
+	        this.set({ text: text });
+	    };
+	    return Todos;
+	}(one_framework_1.Collection));
+	exports.Todos = Todos;
+
+
+/***/ },
+
+/***/ 603:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var Todo_1 = __webpack_require__(604);
+	exports.TodoModel = Todo_1.Todo;
+
+
+/***/ },
+
+/***/ 604:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var one_framework_1 = __webpack_require__(4);
+	var Todo = (function (_super) {
+	    __extends(Todo, _super);
+	    function Todo() {
+	        _super.call(this);
+	        this.defaults = {
+	            text: '',
+	            done: false
+	        };
+	    }
+	    Todo.prototype.done = function () {
+	        this.set({ done: true })
+	            .save()
+	            .subscribe();
+	    };
+	    Todo.prototype.remove = function () {
+	        this.delete()
+	            .subscribe();
+	    };
+	    return Todo;
+	}(one_framework_1.Model));
+	exports.Todo = Todo;
+
+
+/***/ },
+
+/***/ 605:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var _ = __webpack_require__(11);
+	var React = __webpack_require__(13);
+	var one_framework_1 = __webpack_require__(4);
+	var collections_1 = __webpack_require__(601);
+	var _1 = __webpack_require__(599);
+	var Todos = (function (_super) {
+	    __extends(Todos, _super);
+	    function Todos(props) {
+	        _super.call(this, props);
+	        this.todos = collections_1.TodosCollection.instance;
+	        this.setInitialState({
+	            todos: this.todos.filter(props.params.status)
+	        });
+	    }
+	    Todos.prototype.componentDidMount = function () {
+	        var _this = this;
+	        this.todos.on('set', 'remove')
+	            .merge(this.onRoute.mapTo(this.todos))
+	            .takeUntil(this.onUnmount)
+	            .map(function (todos) { return todos.filter(_this.props.params.status); })
+	            .subscribe(function (todos) { return _this.setState({ todos: todos }); });
+	    };
+	    Todos.prototype.render = function () {
+	        var todos = this.state.todos.map(function (todo) { return React.createElement(_1.TodoComponent, {key: todo.cid, todo: todo}); });
+	        return (React.createElement("section", {className: "ui divided list"}, _.size(todos) ? todos : React.createElement("div", {className: "item"}, "No todos"), React.createElement(_1.InputComponent, {todos: this.todos})));
+	    };
+	    return Todos;
+	}(one_framework_1.Component));
+	exports.Todos = Todos;
+
+
+/***/ },
+
+/***/ 606:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(13);
+	var one_framework_1 = __webpack_require__(4);
+	var Todo = (function (_super) {
+	    __extends(Todo, _super);
+	    function Todo(props) {
+	        var _this = this;
+	        _super.call(this, props);
+	        this.lastSet = props.todo.lastSet;
+	        this.fromPool('onDone')
+	            .subscribe(function (e) {
+	            e.stopPropagation();
+	            _this.props.todo.done();
+	        });
+	        this.fromPool('onDestroy')
+	            .subscribe(function (e) {
+	            e.stopPropagation();
+	            _this.props.todo.remove();
+	        });
+	    }
+	    Todo.prototype.shouldComponentUpdate = function (nextProps) {
+	        var shouldUpdate = false;
+	        if (this.lastSet !== nextProps.todo.lastSet) {
+	            this.lastSet = nextProps.todo.lastSet;
+	            shouldUpdate = true;
+	        }
+	        return shouldUpdate;
+	    };
+	    Todo.prototype.render = function () {
+	        var _this = this;
+	        return (React.createElement("div", {className: 'item ' + (this.props.todo.get('done') ? 'done' : ''), onClick: function (e) { return _this.toPool('onDone', e); }}, React.createElement("div", {className: "right floated content"}, React.createElement("button", {className: "ui icon red circular button", onClick: function (e) { return _this.toPool('onDestroy', e); }}, React.createElement("i", {className: "trash icon"}))), React.createElement("div", {className: "content text"}, React.createElement("i", {className: 'icon ' + (this.props.todo.get('done') ? 'checkmark box' : 'square outline')}), this.props.todo.get('text'))));
+	    };
+	    return Todo;
+	}(one_framework_1.Component));
+	exports.Todo = Todo;
+
+
+/***/ },
+
+/***/ 607:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(13);
+	var one_framework_1 = __webpack_require__(4);
+	var Input = (function (_super) {
+	    __extends(Input, _super);
+	    function Input(props) {
+	        var _this = this;
+	        _super.call(this, props);
+	        this.fromPool('onAddTask')
+	            .subscribe(function (e) {
+	            if (e.keyCode === 13) {
+	                var target = e.target;
+	                var text = target.value;
+	                target.value = '';
+	                _this.props.todos.add(text);
+	            }
+	        });
+	    }
+	    Input.prototype.render = function () {
+	        var _this = this;
+	        return (React.createElement("div", {className: "ui form"}, React.createElement("div", {className: "field"}, React.createElement("label", null, "Add Todo"), React.createElement("input", {type: "text", placeholder: "Add todo and press enter", onKeyUp: function (e) { return _this.toPool('onAddTask', e); }}))));
+	    };
+	    return Input;
+	}(one_framework_1.Component));
+	exports.Input = Input;
+
+
+/***/ }
+
+});
 //# sourceMappingURL=bundle.js.map

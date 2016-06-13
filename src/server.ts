@@ -1,34 +1,43 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as _ from 'lodash';
 import {one, Sync} from './app';
 import {join} from 'path';
 import {Http} from './bin/Http';
 import {Request} from 'one-request-transport';
+import {DataStore} from './DataStore';
 
 let http: Http = new Http();
 let app = express();
 let server = http.createServer(app);
+let dataStore: DataStore = new DataStore();
 
 // set request transport as default
 Sync.registerTransport('request', new Request());
 Sync.defaultTransports = ['request'];
 
-// serve static
+// server setup
 app.use('/__clientBuild__', express.static(join(__dirname, '../__clientBuild__')));
-
-// enable cross origin requests
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // serve todos api
 app.get('/api/v1/todos', (req, res) => {
-	res.json(_.times(10, n => ({
-		text: `task-${n}`
-	})));
+	res.json(dataStore.fetch());
+});
+
+app.put('/api/v1/todos/:id', (req, res) => {
+	res.json(dataStore.put(req.params.id, req.body));
+});
+
+app.delete('/api/v1/todos/:id', (req, res) => {
+	res.json(dataStore.delete(req.params.id));
 });
 
 // responds html
-app.get('*', (req, res) => {
+app.get(<any>['/', '/done'], (req, res) => {
 	one.serverBootstrap(req.url)
 		.subscribe(app => {
 			res.send(`
@@ -59,6 +68,7 @@ app.get('*', (req, res) => {
 					</head>
 					<body class="ui container">
 						<div data-outlet>${app}</div>
+						${one.contextScript()}
 						<script type="text/javascript" src="./__clientBuild__/common.js"></script>
 						<script type="text/javascript" src="./__clientBuild__/vendor.js"></script>
 						<script type="text/javascript" src="./__clientBuild__/bundle.js"></script>

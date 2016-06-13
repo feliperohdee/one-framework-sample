@@ -19,13 +19,13 @@ export class Todo extends Component<ITodoProps, ITodoState>{
 		this.fromPool<React.MouseEvent>('onDone')
 			.subscribe(e => {
 				e.stopPropagation();
-				this.props.todo.set({ done: true });
+				this.props.todo.done();
 			});
 
 		this.fromPool<React.MouseEvent>('onDestroy')
 			.subscribe(e => {
 				e.stopPropagation();
-				this.props.todo.destroy();
+				this.props.todo.remove();
 			});
 	}
 

@@ -15,12 +15,12 @@ var Todo = (function (_super) {
         this.fromPool('onDone')
             .subscribe(function (e) {
             e.stopPropagation();
-            _this.props.todo.set({ done: true });
+            _this.props.todo.done();
         });
         this.fromPool('onDestroy')
             .subscribe(function (e) {
             e.stopPropagation();
-            _this.props.todo.destroy();
+            _this.props.todo.remove();
         });
     }
     Todo.prototype.shouldComponentUpdate = function (nextProps) {

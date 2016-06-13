@@ -1,8 +1,9 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import {Component} from 'one-framework';
+import {Component, Sync} from 'one-framework';
 import {Link} from 'react-router';
 import {Observable} from 'rxjs';
+import {TodosCollection} from '../collections';
 
 interface IMainProps{
 	children?: Array<Element>;
@@ -12,6 +13,14 @@ interface IMainState {}
 
 
 export class Main extends Component<IMainProps, IMainState>{
+	static preServer(): Observable<any> {
+		return TodosCollection.instance.fetch({
+			reset: true
+		});
+	}
+
+	public collection: TodosCollection = TodosCollection.instance;
+
 	constructor(props: IMainProps) {
 		super(props);
 	}

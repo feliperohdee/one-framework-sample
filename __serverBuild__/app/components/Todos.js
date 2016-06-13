@@ -15,13 +15,12 @@ var Todos = (function (_super) {
         _super.call(this, props);
         this.todos = collections_1.TodosCollection.instance;
         this.setInitialState({
-            todos: this.prefetchedData ? this.prefetchedData.todos : []
+            todos: this.todos.filter(props.params.status)
         });
     }
     Todos.prototype.componentDidMount = function () {
         var _this = this;
-        this.todos.stream
-            .skip(1)
+        this.todos.on('set', 'remove')
             .merge(this.onRoute.mapTo(this.todos))
             .takeUntil(this.onUnmount)
             .map(function (todos) { return todos.filter(_this.props.params.status); })

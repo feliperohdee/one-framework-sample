@@ -4,7 +4,6 @@ import {Model} from 'one-framework';
  * Model definition
  */
 export class Todo extends Model {
-	public idAttribute: string = 'text';
 	public defaults: any = {
 		text: '',
 		done: false
@@ -12,5 +11,16 @@ export class Todo extends Model {
 
 	constructor() {
 		super();
+	}
+
+	done(): void {
+		this.set({ done: true })
+			.save()
+			.subscribe();
+	}
+
+	remove(): void {
+		this.delete()
+			.subscribe();
 	}
 }

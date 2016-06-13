@@ -23,13 +23,12 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 		super(props);
 	
 		this.setInitialState({
-			todos: this.prefetchedData ? this.prefetchedData.todos : []
+			todos: this.todos.filter(props.params.status)
 		});
 	}
 
 	componentDidMount(): void {
-		this.todos.stream
-			.skip(1) // we can ignore first push in favor of server rendering
+		this.todos.on('set', 'remove')
 			.merge(
 				this.onRoute.mapTo(this.todos)
 			)
