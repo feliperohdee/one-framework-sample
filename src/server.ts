@@ -23,9 +23,17 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// view engine setup
+app.set('views', join(__dirname, '../views'));
+app.set('view engine', 'hbs');
+
 // serve todos api
 app.get('/api/v1/todos', (req, res) => {
 	res.json(dataStore.fetch());
+});
+
+app.post('/api/v1/todos', (req, res) => {
+	res.json(dataStore.add(req.body));
 });
 
 app.put('/api/v1/todos/:id', (req, res) => {
@@ -39,42 +47,8 @@ app.delete('/api/v1/todos/:id', (req, res) => {
 // responds html
 app.get(<any>['/', '/done'], (req, res) => {
 	one.serverBootstrap(req.url)
-		.subscribe(app => {
-			res.send(`
-			<!DOCTYPE html>
-				<html lang="en">
-					<head>
-						<meta charset="UTF-8">
-						<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-						<title>Simple todo list with One Framework</title>
-						<link rel="stylesheet" href="./__clientBuild__/vendor.css">
-						<style>
-							.container{
-								margin-top: 25px;
-							}
-							.item{
-								cursor: pointer!important;
-							}
-							.item .text{
-								padding-top: 10px!important;
-								font-size: 17px;
-								font-weight: lighter;
-							}
-							.done{
-								text-decoration: line-through!important;
-								color: #ddd!important;
-							}
-						</style>
-					</head>
-					<body class="ui container">
-						<div data-outlet>${app}</div>
-						${one.contextScript()}
-						<script type="text/javascript" src="./__clientBuild__/common.js"></script>
-						<script type="text/javascript" src="./__clientBuild__/vendor.js"></script>
-						<script type="text/javascript" src="./__clientBuild__/bundle.js"></script>
-					</body>
-				</html>
-			`);
+		.subscribe(({component, contextScript}) => {
+			res.render('index', { component, contextScript })
 		});
 });
 

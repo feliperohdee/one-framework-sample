@@ -8,12 +8,17 @@ interface ITodo {
 
 export class DataStore {
 	public data: Array<ITodo>;
+	public id: number = 0;
 
 	constructor() {
-		this.data = _.times(10, id => ({
-			id,
-			text: `task-${id}`
-		}));
+		this.data = _.times(10, id => {
+			this.id = id;
+
+			return {
+				id: this.id,
+				text: `task-${this.id}`
+			}
+		});
 	}
 
 	fetch(): Array<ITodo> {
@@ -29,6 +34,10 @@ export class DataStore {
 	}
 
 	add(data: any): ITodo {
+		data = _.extend({
+			id: ++this.id
+		}, data);
+
 		this.data.push(data);
 
 		return data;

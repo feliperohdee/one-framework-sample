@@ -21,6 +21,9 @@ export class Todos extends Collection<TodoModel> {
 	}
 
 	add(text: string): void {
-		this.set({ text });
+		_.each(this.set({ text }), model => {
+			model.save()
+				.subscribe();
+		});
 	}
 }

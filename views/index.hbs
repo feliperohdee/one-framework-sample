@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>Simple todo list with One Framework</title>
+		<link rel="stylesheet" href="./__clientBuild__/vendor.css">
+		<style>
+			.container{
+				margin-top: 25px;
+			}
+			.item{
+				cursor: pointer!important;
+			}
+			.item .text{
+				padding-top: 10px!important;
+				font-size: 17px;
+				font-weight: lighter;
+			}
+			.done{
+				text-decoration: line-through!important;
+				color: #ddd!important;
+			}
+		</style>
+	</head>
+	<body class="ui container">
+		<div data-outlet>{{{component}}}</div>
+		{{{contextScript}}}
+		<script type="text/javascript" src="./__clientBuild__/common.js"></script>
+		<script type="text/javascript" src="./__clientBuild__/vendor.js"></script>
+		<script type="text/javascript" src="./__clientBuild__/bundle.js"></script>
+	</body>
+</html>

@@ -12,7 +12,6 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main(props) {
         _super.call(this, props);
-        this.collection = collections_1.TodosCollection.instance;
     }
     Main.preServer = function () {
         return collections_1.TodosCollection.instance.fetch({

@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var _ = require('lodash');
 var one_framework_1 = require('one-framework');
 var models_1 = require('../models');
 var Todos = (function (_super) {
@@ -24,7 +25,10 @@ var Todos = (function (_super) {
         configurable: true
     });
     Todos.prototype.add = function (text) {
-        this.set({ text: text });
+        _.each(this.set({ text: text }), function (model) {
+            model.save()
+                .subscribe();
+        });
     };
     return Todos;
 }(one_framework_1.Collection));

@@ -17,8 +17,13 @@ app.use('/__clientBuild__', express.static(path_1.join(__dirname, '../__clientBu
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.set('views', path_1.join(__dirname, '../views'));
+app.set('view engine', 'hbs');
 app.get('/api/v1/todos', function (req, res) {
     res.json(dataStore.fetch());
+});
+app.post('/api/v1/todos', function (req, res) {
+    res.json(dataStore.add(req.body));
 });
 app.put('/api/v1/todos/:id', function (req, res) {
     res.json(dataStore.put(req.params.id, req.body));
@@ -28,8 +33,9 @@ app.delete('/api/v1/todos/:id', function (req, res) {
 });
 app.get(['/', '/done'], function (req, res) {
     app_1.one.serverBootstrap(req.url)
-        .subscribe(function (app) {
-        res.send("\n\t\t\t<!DOCTYPE html>\n\t\t\t\t<html lang=\"en\">\n\t\t\t\t\t<head>\n\t\t\t\t\t\t<meta charset=\"UTF-8\">\n\t\t\t\t\t\t<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" />\n\t\t\t\t\t\t<title>Simple todo list with One Framework</title>\n\t\t\t\t\t\t<link rel=\"stylesheet\" href=\"./__clientBuild__/vendor.css\">\n\t\t\t\t\t\t<style>\n\t\t\t\t\t\t\t.container{\n\t\t\t\t\t\t\t\tmargin-top: 25px;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t.item{\n\t\t\t\t\t\t\t\tcursor: pointer!important;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t.item .text{\n\t\t\t\t\t\t\t\tpadding-top: 10px!important;\n\t\t\t\t\t\t\t\tfont-size: 17px;\n\t\t\t\t\t\t\t\tfont-weight: lighter;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t.done{\n\t\t\t\t\t\t\t\ttext-decoration: line-through!important;\n\t\t\t\t\t\t\t\tcolor: #ddd!important;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t</style>\n\t\t\t\t\t</head>\n\t\t\t\t\t<body class=\"ui container\">\n\t\t\t\t\t\t<div data-outlet>" + app + "</div>\n\t\t\t\t\t\t" + app_1.one.contextScript() + "\n\t\t\t\t\t\t<script type=\"text/javascript\" src=\"./__clientBuild__/common.js\"></script>\n\t\t\t\t\t\t<script type=\"text/javascript\" src=\"./__clientBuild__/vendor.js\"></script>\n\t\t\t\t\t\t<script type=\"text/javascript\" src=\"./__clientBuild__/bundle.js\"></script>\n\t\t\t\t\t</body>\n\t\t\t\t</html>\n\t\t\t");
+        .subscribe(function (_a) {
+        var component = _a.component, contextScript = _a.contextScript;
+        res.render('index', { component: component, contextScript: contextScript });
     });
 });
 app.use(function (req, res, next) {

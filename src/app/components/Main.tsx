@@ -19,8 +19,6 @@ export class Main extends Component<IMainProps, IMainState>{
 		});
 	}
 
-	public collection: TodosCollection = TodosCollection.instance;
-
 	constructor(props: IMainProps) {
 		super(props);
 	}

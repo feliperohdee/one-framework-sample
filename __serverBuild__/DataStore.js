@@ -2,10 +2,15 @@
 var _ = require('lodash');
 var DataStore = (function () {
     function DataStore() {
-        this.data = _.times(10, function (id) { return ({
-            id: id,
-            text: "task-" + id
-        }); });
+        var _this = this;
+        this.id = 0;
+        this.data = _.times(10, function (id) {
+            _this.id = id;
+            return {
+                id: _this.id,
+                text: "task-" + _this.id
+            };
+        });
     }
     DataStore.prototype.fetch = function () {
         return this.data;
@@ -17,6 +22,9 @@ var DataStore = (function () {
         return _.findIndex(this.data, { id: id });
     };
     DataStore.prototype.add = function (data) {
+        data = _.extend({
+            id: ++this.id
+        }, data);
         this.data.push(data);
         return data;
     };
