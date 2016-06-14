@@ -28,7 +28,7 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 	}
 
 	componentDidMount(): void {
-		this.todos.on('set', 'remove')
+		this.todos.on('set', 'destroy')
 			.merge(
 				this.onRoute.mapTo(this.todos)
 			)

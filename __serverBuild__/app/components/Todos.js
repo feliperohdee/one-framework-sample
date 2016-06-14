@@ -20,7 +20,7 @@ var Todos = (function (_super) {
     }
     Todos.prototype.componentDidMount = function () {
         var _this = this;
-        this.todos.on('set', 'remove')
+        this.todos.on('set', 'destroy')
             .merge(this.onRoute.mapTo(this.todos))
             .takeUntil(this.onUnmount)
             .map(function (todos) { return todos.filter(_this.props.params.status); })

@@ -20,7 +20,8 @@ var Todo = (function (_super) {
             .subscribe();
     };
     Todo.prototype.remove = function () {
-        this.delete()
+        this.destroy()
+            .delete()
             .subscribe();
     };
     return Todo;

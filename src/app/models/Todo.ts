@@ -20,7 +20,8 @@ export class Todo extends Model {
 	}
 
 	remove(): void {
-		this.delete()
+		this.destroy()
+			.delete()
 			.subscribe();
 	}
 }

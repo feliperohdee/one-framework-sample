@@ -1,7 +1,0 @@
-"use strict";
-require('one-framework');
-require('react');
-require('react-router');
-require('rxjs');
-require('./public/semantic/semantic.css');
-//# sourceMappingURL=vendor.js.map
