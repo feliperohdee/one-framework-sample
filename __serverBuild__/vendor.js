@@ -4,5 +4,5 @@ require('react');
 require('react-router');
 require('rxjs');
 require('./public/semantic/semantic.min.js');
-require('./public/semantic/semantic.min.css');
+require('./public/semantic/semantic.css');
 //# sourceMappingURL=vendor.js.map

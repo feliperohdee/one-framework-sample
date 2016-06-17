@@ -4,4 +4,4 @@ import 'react-router';
 import 'rxjs';
 
 import './public/semantic/semantic.min.js';
-import './public/semantic/semantic.min.css';
+import './public/semantic/semantic.css';
