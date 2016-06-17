@@ -18,22 +18,31 @@ var Todos = (function (_super) {
             todos: this.todos.filter(props.params.status)
         });
     }
+    Todos.prototype.initSearch = function () {
+        var _this = this;
+        if (this.searchRef) {
+            this.searchRef.search('destroy');
+        }
+        this.searchRef = $('.ui.search');
+        this.searchRef.search({
+            fields: {
+                title: 'text'
+            },
+            searchFields: ['text'],
+            source: this.todos.map(function (todo) { return todo.pick('text'); }),
+            onSelect: function (filterString) { return _this.todos.trigger('filter', filterString.text); }
+        });
+    };
     Todos.prototype.componentDidMount = function () {
         var _this = this;
-        $('.ui.search').search({
-            source: this.todos.map(function (todo) {
-                return {
-                    title: todo.get('text')
-                };
-            }),
-            onSelect: function (filterString) { return _this.todos.trigger('filter', filterString.title); }
-        });
+        this.initSearch();
         this.todos.on('filter')
             .takeUntil(this.onUnmount)
             .map(function (filterString) { return _this.todos.filter(function (todo) { return todo.equals('text', filterString); }); })
             .subscribe(function (todos) { return _this.setState({ todos: todos }); });
         this.todos.on('set', 'destroy')
             .merge(this.onRoute.mapTo(this.todos))
+            .do(function () { return _this.initSearch(); })
             .takeUntil(this.onUnmount)
             .map(function () { return _this.todos.filter(_this.props.params.status); })
             .subscribe(function (todos) { return _this.setState({ todos: todos }); });

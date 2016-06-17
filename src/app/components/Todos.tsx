@@ -18,6 +18,7 @@ interface ITodosState {
 
 export class Todos extends Component<ITodosProps, ITodosState>{
 	public todos: TodosCollection = TodosCollection.instance;
+	private searchRef: any;
 
 	constructor(props?: ITodosProps) {
 		super(props);
@@ -27,15 +28,24 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 		});
 	}
 
-	componentDidMount(): void {
-		($('.ui.search') as any).search({
-			source: this.todos.map(todo => {
-				return {
-					title: todo.get('text')
-				}
-			}),
-			onSelect: filterString => this.todos.trigger('filter', filterString.title)
+	initSearch(): void {
+		if (this.searchRef) {
+			this.searchRef.search('destroy');
+		}
+
+		this.searchRef = $('.ui.search');
+		this.searchRef.search({
+			fields: {
+				title: 'text'
+			},
+			searchFields: ['text'],
+			source: this.todos.map(todo => todo.pick('text')),
+			onSelect: filterString => this.todos.trigger('filter', filterString.text)
 		});
+	}
+
+	componentDidMount(): void {
+		this.initSearch();
 
 		this.todos.on('filter')
 			.takeUntil(this.onUnmount)
@@ -46,6 +56,7 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 			.merge(
 				this.onRoute.mapTo(this.todos)
 			)
+			.do(() => this.initSearch())
 			.takeUntil(this.onUnmount)
 			.map(() => this.todos.filter(this.props.params.status))
 			.subscribe(todos => this.setState({ todos }));
