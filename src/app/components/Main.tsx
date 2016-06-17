@@ -26,6 +26,14 @@ export class Main extends Component<IMainProps, IMainState>{
 	render(): JSX.Element{
 		return (
 			<section>
+				<div className="ui search">
+				  	<div className="ui fluid icon input">
+				    	<input className="prompt" type="text" placeholder="Filter"/>
+				    	<i className="search icon"></i>
+					</div>
+					<div className="results"></div>
+				</div>
+
 				<div className="ui pointing menu">
 					<Link className="item" activeClassName="active" onlyActiveOnIndex={true} to="/">All</Link>
 					<Link className="item" activeClassName="active" to="/done">Done</Link>

@@ -3,5 +3,5 @@ import 'react';
 import 'react-router';
 import 'rxjs';
 
-// styles
-import './public/semantic/semantic.css';
+import './public/semantic/semantic.min.js';
+import './public/semantic/semantic.min.css';

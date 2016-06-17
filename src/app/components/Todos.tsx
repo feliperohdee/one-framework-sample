@@ -28,12 +28,26 @@ export class Todos extends Component<ITodosProps, ITodosState>{
 	}
 
 	componentDidMount(): void {
+		($('.ui.search') as any).search({
+			source: this.todos.map(todo => {
+				return {
+					title: todo.get('text')
+				}
+			}),
+			onSelect: filterString => this.todos.trigger('filter', filterString.title)
+		});
+
+		this.todos.on('filter')
+			.takeUntil(this.onUnmount)
+			.map(filterString => this.todos.filter(todo => todo.equals('text', filterString)))
+			.subscribe(todos => this.setState({ todos }));
+
 		this.todos.on('set', 'destroy')
 			.merge(
 				this.onRoute.mapTo(this.todos)
 			)
 			.takeUntil(this.onUnmount)
-			.map(todos => todos.filter(this.props.params.status))
+			.map(() => this.todos.filter(this.props.params.status))
 			.subscribe(todos => this.setState({ todos }));
 	}
 

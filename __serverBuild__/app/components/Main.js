@@ -19,7 +19,7 @@ var Main = (function (_super) {
         });
     };
     Main.prototype.render = function () {
-        return (React.createElement("section", null, React.createElement("div", {className: "ui pointing menu"}, React.createElement(react_router_1.Link, {className: "item", activeClassName: "active", onlyActiveOnIndex: true, to: "/"}, "All"), React.createElement(react_router_1.Link, {className: "item", activeClassName: "active", to: "/done"}, "Done"), React.createElement("div", {className: "right menu"}, React.createElement("a", {className: "item", href: "https://github.com/feliperohdee/one-framework-sample"}, "Source"))), this.props.children));
+        return (React.createElement("section", null, React.createElement("div", {className: "ui search"}, React.createElement("div", {className: "ui fluid icon input"}, React.createElement("input", {className: "prompt", type: "text", placeholder: "Filter"}), React.createElement("i", {className: "search icon"})), React.createElement("div", {className: "results"})), React.createElement("div", {className: "ui pointing menu"}, React.createElement(react_router_1.Link, {className: "item", activeClassName: "active", onlyActiveOnIndex: true, to: "/"}, "All"), React.createElement(react_router_1.Link, {className: "item", activeClassName: "active", to: "/done"}, "Done"), React.createElement("div", {className: "right menu"}, React.createElement("a", {className: "item", href: "https://github.com/feliperohdee/one-framework-sample"}, "Source"))), this.props.children));
     };
     return Main;
 }(one_framework_1.Component));

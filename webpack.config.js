@@ -5,7 +5,6 @@ _ = require('lodash');
 var base = {
     cache: true,
     devtool: 'cheap-source-map',
-
     entry: {
         'vendor': ['./src/vendor.ts'],
         'bundle': ['./src/browser.ts']

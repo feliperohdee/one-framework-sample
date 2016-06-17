@@ -20,10 +20,22 @@ var Todos = (function (_super) {
     }
     Todos.prototype.componentDidMount = function () {
         var _this = this;
+        $('.ui.search').search({
+            source: this.todos.map(function (todo) {
+                return {
+                    title: todo.get('text')
+                };
+            }),
+            onSelect: function (filterString) { return _this.todos.trigger('filter', filterString.title); }
+        });
+        this.todos.on('filter')
+            .takeUntil(this.onUnmount)
+            .map(function (filterString) { return _this.todos.filter(function (todo) { return todo.equals('text', filterString); }); })
+            .subscribe(function (todos) { return _this.setState({ todos: todos }); });
         this.todos.on('set', 'destroy')
             .merge(this.onRoute.mapTo(this.todos))
             .takeUntil(this.onUnmount)
-            .map(function (todos) { return todos.filter(_this.props.params.status); })
+            .map(function () { return _this.todos.filter(_this.props.params.status); })
             .subscribe(function (todos) { return _this.setState({ todos: todos }); });
     };
     Todos.prototype.render = function () {
